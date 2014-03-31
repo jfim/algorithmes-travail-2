@@ -1,0 +1,424 @@
+\documentclass[11pt,addpoints]{exam}
+\usepackage[french]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{palatino}
+\usepackage{sourcecodepro}
+\usepackage{enumitem}
+\usepackage{todonotes}
+\usepackage{parskip}
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\usepackage{hyperref}
+
+\begin{document}
+\title{Algorithmes et structures de données: Travail 2}
+\author{}
+\date{\vspace{-0.5in}}
+\maketitle
+\begin{center}
+\fbox{\parbox{5.5in}{\centering
+Ce travail compte pour 6\% de la session et porte sur la récursion. \textit{50\% des points seront retirés pour les implémentations non récursives}. Le code source pour le travail est disponible à \url{https://github.com/jfim/algorithmes-travail-2}. Vous ne pouvez pas utiliser les fonctions de la librairie standard.
+Vous devez remettre votre fichier \texttt{travail2.cpp} par LÉA avant le début du cours du 8 avril. La version papier du document doit être remise au début du cours du 8 avril.}}
+\end{center}
+\vspace{0.1in}
+\makebox[\textwidth]{Nom:\enspace\hrulefill}
+\begin{questions}
+
+\question
+La série de Fibonacci est une série de chiffres importante qui apparait fréquemment dans la nature. Les deux premiers termes de celle-ci sont $f(0)=0$ et $f(1)=1$, puis les termes subséquents sont exprimés comme la somme des deux termes précédents, soit $f(n) = f(n-1) + f(n-2)$. Par exemple, $f(2)=f(1) + f(0)$, soit $f(2)=1+0$.
+\begin{parts}
+\part[1]
+En utilisant la récursion, implémentez la fonction {\tt fibonacci()}.
+\part[\half]
+Est-ce que la complexité de la version récursive est $O(n)$?
+\begin{oneparcheckboxes}
+\choice Oui
+\choice Non
+\end{oneparcheckboxes}
+\part[1]
+Dans vos mots, expliquez comment vous pourriez faire pour calculer cette série plus rapidement.
+\makeemptybox{\stretch{1}}
+\end{parts}
+
+\question
+Le plus grand commun diviseur est le chiffre entier le plus grand qui divise deux chiffres de façon égale. Par exemple, le plus grand commun diviseur de 54 et 24 est 6.
+
+L'algorithme d'Euclide permet de trouver le plus grand common diviseur de deux nombres.
+
+\[ PGCD(n_1, n_2) = \left\{ 
+  \begin{array}{l l}
+    n_1 & \quad \textrm{si $n_2$ = 0}\\
+    PGCD(n_2, n_1 \mathrm{mod} n_2) & \quad \textrm{si $n_2 > 0$, où $\mathrm{mod}$ est l'opérateur modulo}
+  \end{array} \right.\]
+\begin{parts}
+\part[1]
+En utilisant la récursion, implémentez la fonction {\tt pgcd()}.
+\part[\half]
+Est-ce que la complexité de cet algorithme est $O(n)$?
+\begin{oneparcheckboxes}
+\choice Oui
+\choice Non
+\end{oneparcheckboxes}
+\end{parts}
+
+\newpage
+
+\question
+La récursion terminale est un cas particulier de la récursivité où l'appel à la fonction récursive apparait comme la dernière instruction d'une fonction récursive. Par exemple, l'algorithme \textsc{Somme} ci-dessous calcule la somme d'un tableau en utilisant la récursion terminale.
+
+\algrenewcommand\algorithmicfor{\textbf{pour}}
+\algrenewcommand\algorithmicfunction{\textbf{fonction}}
+\algrenewcommand\algorithmicif{\textbf{si}}
+\algrenewcommand\algorithmicelse{\textbf{sinon}}
+\algrenewcommand\algorithmicthen{\textbf{donc}}
+\algrenewcommand\algorithmicdo{\textbf{}}
+\algrenewcommand\algorithmicend{\textbf{fin}}
+\begin{algorithm}
+\begin{algorithmic}[1]
+\Function{Somme}{$tableau,longueur,sommeAccumulee$}
+\If{$longueur=0$}
+\State \textbf{retourne} $sommeAccumulee$
+\Else
+\State \textbf{retourne} \textsc{Somme}$(tableau+1, longueur-1, sommeAccumulee+tableau[0])$
+\EndIf
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+\begin{parts}
+\part[1]
+Implémentez la fonction {\tt maximum()} qui retourne le maximum d'un tableau de façon récursive.
+\part[\half]
+Est-ce que la complexité de cet algorithme est $O(n)$?
+\begin{oneparcheckboxes}
+\choice Oui
+\choice Non
+\end{oneparcheckboxes}
+\part[\half]
+Selon vous, est-ce que cette version est plus rapide que la version qui utilise une boucle pour itérer sur les éléments du tableau?
+\begin{oneparcheckboxes}
+\choice Oui
+\choice Non
+\end{oneparcheckboxes}
+
+Expliquez pourquoi.
+\makeemptybox{\stretch{1}}
+\end{parts}
+
+\question[2]
+La recherche binaire (ou dichotomique) permet de rechercher des éléments dans un tableau trié en
+un temps $O(\log n)$. Pour se faire, la recherche prend l'élément mitoyen puis
+le compare avec l'élément recherché. Si l'élément mitoyen n'est pas l'élément
+recherché, la recherche continue dans la moitié respective où l'élément
+recherché peut se trouver, tel qu'expliqué en classe.
+
+Implémentez une fonction \texttt{indexDe()} qui prend en paramètre un tableau,
+sa longueur et un chiffre à rechercher, puis qui retourne l'index du chiffre
+recherché en utilisant une recherche binaire implémentée avec la récursion.
+Dans le cas où le chiffre n'est pas dans le tableau, vous devez retourner
+l'index $-1$.
+
+Supposez que le tableau passé en paramètre est croissant. La fonction
+\texttt{indexDe()} n'a pas les paramètres que vous aurez besoin pour l'utiliser
+directement comme fonction récursive; vous aurez donc à créer
+une autre fonction (qui sera récursive) avec les paramètres de votre choix et
+l'appeler à partir de \texttt{indexDe()}.
+
+% \question[2]
+% Dans vos mots, expliquez ce qu'est un algorithme.
+% \makeemptybox{\stretch{1}}
+% 
+% \question[1]
+% Quelle est la première étape qui doit être absolument faite avant de commencer à résoudre un problème avec un algorithme?
+% \makeemptybox{0.3in}
+% 
+% \question[2]
+% Dans vos mots, expliquez ce qu'est un tableau.
+% \makeemptybox{\stretch{1}}
+% 
+% \newpage
+% 
+% \question[3]
+% Voici le pseudocode pour trouver le maximum d'un tableau.
+% 
+% \algrenewcommand\algorithmicfor{\textbf{pour}}
+% \algrenewcommand\algorithmicfunction{\textbf{fonction}}
+% \algrenewcommand\algorithmicif{\textbf{si}}
+% \algrenewcommand\algorithmicthen{\textbf{donc}}
+% \algrenewcommand\algorithmicdo{\textbf{}}
+% \algrenewcommand\algorithmicend{\textbf{fin}}
+% \begin{algorithm}
+% \begin{algorithmic}[1]
+% \Function{Maximum}{$tableau,longueur$}
+% \State $max\gets tableau[0]$\Comment{La valeur maximum trouvée à date}
+% \For{$i \gets 1 $ \textbf{à} $longueur$}
+% \If{$max<tableau[i]$}
+% \State $max \gets tableau[i]$
+% \EndIf
+% \EndFor
+% \State \textbf{returne} $max$
+% \EndFunction
+% \end{algorithmic}
+% \end{algorithm}
+% 
+% Dans le même format, écrivez le pseudocode pour déterminer si les valeurs contenues dans un tableau sont croissantes. Vous n'avez pas besoin de numéroter les lignes.
+% \makeemptybox{\stretch{1}}
+% 
+% \newpage
+% 
+% \question[3]
+% \label{vecteur}
+% On vous donne la fonction \textsc{AlloueTableau} qui vous retourne un pointeur vers un tableau de la taille spécifiée en paramètre et la procédure \textsc{LibèreTableau} qui libère la mémoire utilisée par un pointeur vers un tableau. En voici un exemple d'utilisation:
+% 
+% \begin{algorithm}
+% \begin{algorithmic}[1]
+% \State $tableau \gets \textsc{AlloueTableau}(5)$ \Comment{$tableau$ pointe vers cinq éléments}
+% \State $tableau[2] \gets 3$
+% \State $\textsc{LibèreTableau}(tableau)$\Comment{La mémoire utilisée par $tableau$ est libérée}
+% \end{algorithmic}
+% \end{algorithm}
+% 
+% Écrivez le pseudocode pour ajouter une valeur à la fin d'un vecteur, en le redimensionnant si nécessaire. Expliquez la signification des variables que vous utilisez dans votre vecteur.
+% \makeemptybox{\stretch{1}}
+% 
+% \newpage
+% 
+% \question[3]
+% Écrivez le pseudocode pour stocker en ordre inverse dans la variable globale $tableauInverse$ le contenu du tableau $tableau$ passé en paramètre. Supposez qu'il existe suffisemment d'espace dans $tableauInverse$ pour contenir toutes les valeurs du tableau passé en paramètre.
+% \makeemptybox{\stretch{1}}
+% 
+% \question[3]
+% Écrivez le pseudocode pour inverser le tableau $tableau$ en place (c'est-à-dire de le modifier sans utiliser la variable globale $tableauInverse$).
+% \makeemptybox{\stretch{1}}
+% 
+% \newpage
+% 
+% \question
+% Avec la mémoire ci-dessous et en sachant que $\&a=2$ et $\&b=4$, quelle est la valeur de :
+% \begin{tabular}{|l|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+% \hline
+% Adresse & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 \\
+% \hline
+% Valeur & 10 & 4 & 8 & 13 & 12 & 14 & 16 & 3 & 7 & 15 & 5 & 9 & 11 & 2 & 6 & 1 \\
+% \hline
+% \end{tabular}
+% \begin{parts}
+% \part[\half]
+% $a$
+% \part[\half]
+% $b$
+% \part[\half]
+% $*a$
+% \part[\half]
+% $*b$
+% \part[\half]
+% $*(a+2)$
+% \part[\half]
+% $b[3]$
+% \part[\half]
+% $\&(b[1])$
+% \part[\half]
+% $*(*(*a))$
+% \end{parts}
+% 
+% \question
+% Une liste chaînée contient un pointeur vers le premier maillon. Chaque maillon de la liste chaînée contient une valeur suivie d'un pointeur vers le maillon suivant. Le dernier maillon contient un pointeur vers l'adresse invalide $0$. Avec la mémoire ci-dessous et en sachant que l'adresse du premier maillon est 5:
+% 
+% \begin{tabular}{|l|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+% \hline
+% Adresse & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 \\
+% \hline
+% Valeur & 2 & 0 & 15 & 16 & 5 & 10 & 8 & 1 & 9 & 3 & 14 & 12 & 13 & 6 & 7 & 14 \\
+% \hline
+% \end{tabular}
+% \begin{parts}
+% \part[\half]
+% De quel type de liste chaînée s'agit-il?
+% 
+% \begin{oneparcheckboxes}
+% \choice Simplement chaînée
+% \choice Doublement chaînée
+% \choice Triplement chaînée
+% \end{oneparcheckboxes}
+% 
+% \part[\half]
+% Quelle est la longueur de la liste chaînée?
+% \makeemptybox{0.3in}
+% \part[\half]
+% Dans l'ordre, quelles sont les valeurs contenues dans la liste chaînée?
+% \makeemptybox{0.3in}
+% \part[\half]
+% Écrivez dans les boîtes ci-dessous le contenu de la mémoire après que le deuxième élément de la liste chaînée ait été enlevé de la liste. Vous n'avez pas besoin de retranscrire les valeurs identiques au contenu précédent de la mémoire.
+% 
+% \begin{tabular}{|l|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+% \hline
+% Adresse & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 \\
+% \hline
+% Valeur &   &   &   &   &   &   &   &  &  &  &  &  &  &  &  &  \\
+% \hline
+% \end{tabular}
+% \end{parts}
+% 
+% \question
+% Quelle est la complexité de:
+% \begin{parts}
+% \part[\half]
+% Faire la somme des entiers contenus dans un tableau.
+% 
+% \begin{oneparcheckboxes}
+% \choice $O(1)$
+% \choice $O($log$n)$
+% \choice $O(n)$
+% \choice $O(n$log$n)$
+% \choice $O(n^2)$
+% \end{oneparcheckboxes}
+% \part[\half]
+% Trouver un élément dans un tableau.
+% 
+% \begin{oneparcheckboxes}
+% \choice $O(1)$
+% \choice $O($log$n)$
+% \choice $O(n)$
+% \choice $O(n$log$n)$
+% \choice $O(n^2)$
+% \end{oneparcheckboxes}
+% \part[\half]
+% Trouver un élément dans une liste chaînée.
+% 
+% \begin{oneparcheckboxes}
+% \choice $O(1)$
+% \choice $O($log$n)$
+% \choice $O(n)$
+% \choice $O(n$log$n)$
+% \choice $O(n^2)$
+% \end{oneparcheckboxes}
+% \part[\half]
+% Ôter un élément au début d'un vecteur.
+% 
+% \begin{oneparcheckboxes}
+% \choice $O(1)$
+% \choice $O($log$n)$
+% \choice $O(n)$
+% \choice $O(n$log$n)$
+% \choice $O(n^2)$
+% \end{oneparcheckboxes}
+% \part[\half]
+% Ôter un élément à la fin d'un vecteur.
+% 
+% \begin{oneparcheckboxes}
+% \choice $O(1)$
+% \choice $O($log$n)$
+% \choice $O(n)$
+% \choice $O(n$log$n)$
+% \choice $O(n^2)$
+% \end{oneparcheckboxes}
+% \part[\half]
+% Aller chercher un élément à un index spécifique dans un tableau.
+% 
+% \begin{oneparcheckboxes}
+% \choice $O(1)$
+% \choice $O($log$n)$
+% \choice $O(n)$
+% \choice $O(n$log$n)$
+% \choice $O(n^2)$
+% \end{oneparcheckboxes}
+% \part[\half]
+% Aller chercher un élément à un index spécifique dans une liste chaînée.
+% 
+% \begin{oneparcheckboxes}
+% \choice $O(1)$
+% \choice $O($log$n)$
+% \choice $O(n)$
+% \choice $O(n$log$n)$
+% \choice $O(n^2)$
+% \end{oneparcheckboxes}
+% \part[\half]
+% Aller chercher un élément à un index spécifique dans un vecteur.
+% 
+% \begin{oneparcheckboxes}
+% \choice $O(1)$
+% \choice $O($log$n)$
+% \choice $O(n)$
+% \choice $O(n$log$n)$
+% \choice $O(n^2)$
+% \end{oneparcheckboxes}
+% \end{parts}
+% 
+% \question[1]
+% Laquelle ou lesquelles de ces structures de données ont une taille fixe (c'est-à-dire qu'on ne peut pas y rajouter de valeurs)?
+% 
+% \begin{oneparcheckboxes}
+% \choice Tableau
+% \choice Liste chaînée
+% \choice Vecteur
+% \end{oneparcheckboxes}
+% 
+% \question[2]
+% Quelles sont les différences entre une pile et une file?
+% \makeemptybox{\stretch{1}}
+% 
+% \question[2]
+% Entre une liste chaînée et un vecteur, quelle structure de données serait la meilleure structure pour implémenter une pile? Pourquoi?
+% \begin{oneparcheckboxes}
+% \choice Liste chaînée
+% \choice Vecteur
+% \end{oneparcheckboxes}
+% \makeemptybox{\stretch{1}}
+% 
+% \question[2]
+% Entre une liste chaînée et un vecteur, quelle structure de données serait la meilleure structure pour implémenter une file? Pourquoi?
+% \begin{oneparcheckboxes}
+% \choice Liste chaînée
+% \choice Vecteur
+% \end{oneparcheckboxes}
+% \makeemptybox{\stretch{1}}
+% 
+% \newpage
+% 
+% \question[2]
+% Quelle est la différence entre une structure de donnée linéaire et une structure de donnée non linéaire? Donnez un exemple de chaque.
+% \makeemptybox{\stretch{1}}
+% 
+% \question[2]
+% Dans vos mots, expliquez ce qu'est la notation grand O.
+% \makeemptybox{\stretch{1}}
+% 
+% \question[2]
+% Dans vos mots, expliquez la différence entre un temps O(1) et un temps O(1) amorti.
+% \makeemptybox{\stretch{1}}
+% 
+% \newpage
+% 
+% \bonusquestion
+% \begin{parts}
+% \bonuspart[2]
+% Écrivez le pseudocode de la fonction qui permet de prendre une valeur dans une pile et celui de la procédure pour ajouter un élément dans une pile. Votre pile doit être redimensionnable. Vous pouvez utiliser les fonctions d'allocation de mémoire de la question \ref{vecteur}. Si vous utilisez des variables globales, expliquez leur signification.
+% \makeemptybox{\stretch{3}}
+% \bonuspart
+% Quelle est la complexité de:
+% \begin{parts}
+% \bonuspart[\half]Votre fonction qui prend une valeur de la pile
+% 
+% \begin{oneparcheckboxes}
+% \choice $O(1)$
+% \choice $O($log$n)$
+% \choice $O(n)$
+% \choice $O(n$log$n)$
+% \choice $O(n^2)$
+% \end{oneparcheckboxes}
+% \bonuspart[\half]Votre procédure qui ajoute un élément dans la pile
+% 
+% \begin{oneparcheckboxes}
+% \choice $O(1)$
+% \choice $O($log$n)$
+% \choice $O(n)$
+% \choice $O(n$log$n)$
+% \choice $O(n^2)$
+% \end{oneparcheckboxes}
+% \end{parts}
+% \end{parts}
+% 
+\end{questions}
+\end{document}
